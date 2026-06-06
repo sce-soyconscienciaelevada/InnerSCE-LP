@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
+<!-- updated: 2026-06-06 12:10 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>InnerSCE | Agencia Digital AI-first — Copy, SEO y Estrategia en 7–10 días</title>
@@ -8,12 +9,12 @@
 <meta property="og:title" content="InnerSCE | Agencia Digital AI-first — Tu sistema en 7 días">
 <meta property="og:description" content="Sistema completo: copy, SEO, estrategia, email. Entregado en 7–10 días. Sin retainer. Vos lo operás.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://innersce.co/">
-<meta property="og:image" content="https://innersce.co/assets/og-innersce.png">
+<meta property="og:url" content="https://innerscel.vercel.app/">
+<meta property="og:image" content="https://innerscel.vercel.app/assets/og-innersce.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="InnerSCE | Agencia Digital AI-first">
 <meta name="twitter:description" content="Sistema digital completo para tu negocio: copy, SEO, estrategia, email. Entregado en 7–10 días. Sin retainer.">
-<link rel="canonical" href="https://innersce.co/">
+<link rel="canonical" href="https://innerscel.vercel.app/">
 <link rel="icon" type="image/svg+xml" href="assets/logomark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1399,7 +1400,7 @@ footer {
             <option>Menos de $500 USD</option>
             <option>$500 – $2,500 USD</option>
             <option>$2,500 – $5,000 USD</option>
-            <option>+$5,000 USD</option>
+            <option value="Mas de $5,000 USD">+$5,000 USD</option>
             <option>Todavía no lo tengo claro</option>
           </select>
         </div>
@@ -1415,8 +1416,27 @@ footer {
         </div>
       </div>
       <div class="qualify-field">
-        <label class="qualify-label" for="q-wa">WhatsApp (con código de país)</label>
-        <input class="qualify-input" id="q-wa" name="phone" type="tel" placeholder="Ej: +54 9 11 1234 5678" required>
+        <label class="qualify-label" for="q-email">Email de contacto</label>
+        <input class="qualify-input" id="q-email" name="email" type="email" placeholder="Ej: hola@tumarca.com" required>
+      </div>
+      <div class="qualify-row">
+        <div class="qualify-field">
+          <label class="qualify-label" for="q-phone">Teléfono de contacto</label>
+          <input class="qualify-input" id="q-phone" name="phone" type="tel" placeholder="Ej: +54 9 11 1234 5678" required>
+        </div>
+        <div class="qualify-field">
+          <label class="qualify-label" for="q-contact-method">¿Cómo preferís que te contactemos?</label>
+          <select class="qualify-select" id="q-contact-method" name="contact_method" onchange="toggleWaField(this.value)" required>
+            <option value="" disabled selected>Seleccioná</option>
+            <option value="wa_same">WhatsApp (este número)</option>
+            <option value="wa_other">WhatsApp (otro número)</option>
+            <option value="email">Solo email</option>
+          </select>
+        </div>
+      </div>
+      <div class="qualify-field" id="q-wa-diff-wrap" style="display:none">
+        <label class="qualify-label" for="q-wa-number">Número de WhatsApp (con código de país)</label>
+        <input class="qualify-input" id="q-wa-number" name="wa_number" type="tel" placeholder="Ej: +54 9 11 9999 8888">
       </div>
       <button type="submit" class="btn-cta qualify-submit">
         <span>Enviar y recibir diagnóstico</span>
@@ -1426,7 +1446,7 @@ footer {
     </form>
 
     <div class="qualify-success" id="qualify-success">
-      ✓ Formulario recibido. Revisamos tu caso en las próximas 24 horas y te escribimos por WhatsApp.
+      ✓ Formulario recibido. Revisamos tu caso en las próximas 24 horas y te contactamos como preferiste.
     </div>
   </div>
 </section>
@@ -1619,11 +1639,28 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 })();
 
 /* ── QUALIFY FORM ────────────────────────────────── */
+function toggleWaField(val) {
+  const wrap = document.getElementById('q-wa-diff-wrap');
+  const input = document.getElementById('q-wa-number');
+  if (val === 'wa_other') {
+    wrap.style.display = 'flex';
+    input.required = true;
+  } else {
+    wrap.style.display = 'none';
+    input.required = false;
+    input.value = '';
+  }
+}
+
 function handleQualify(e) {
   e.preventDefault();
   const form = document.getElementById('qualify-form');
   const success = document.getElementById('qualify-success');
   const data = Object.fromEntries(new FormData(form));
+
+  // Resolve actual WA number from contact preference
+  if (data.contact_method === 'wa_same') data.wa_number = data.phone;
+  else data.wa_number = '';
 
   const webhookUrl = 'https://sce-sce.app.n8n.cloud/webhook/intake';
 
