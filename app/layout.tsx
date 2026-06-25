@@ -19,9 +19,9 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "InnerSCE | Agencia Digital AI-first — Copy, SEO y Estrategia en 7–10 días",
+  title: "InnerSCE — Copy, SEO y estrategia en 7–10 días",
   description:
-    "InnerSCE construye el sistema digital completo de tu negocio: copy, SEO, estrategia, email y activos digitales — entregados en 7–10 días. Sin retainer, sin dependencia. Desde $800 USD.",
+    "Construimos el sistema digital de tu negocio: copy, SEO, estrategia y email en 7–10 días. Sin retainer, sin dependencia. Desde $800 USD.",
   metadataBase: new URL("https://innersce.co"),
   openGraph: {
     title: "InnerSCE | Agencia Digital AI-first — Tu sistema en 7 días",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
       "Sistema completo: copy, SEO, estrategia, email. Entregado en 7–10 días. Sin retainer. Vos lo operás.",
     type: "website",
     url: "https://innersce.co/",
-    images: [{ url: "/assets/og-innersce.png" }],
+    images: [],
   },
   twitter: {
     card: "summary_large_image",
